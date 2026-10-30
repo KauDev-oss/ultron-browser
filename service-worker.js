@@ -4,9 +4,7 @@ const CACHE_NAME = "ultron-cache-v1";
 const APP_FILES = [
   "./",
   "./index.html",
-  "./manifest.webmanifest",
-  "./icon-192.png",
-  "./icon-512.png"
+  "./manifest.webmanifest"
 ];
 
 // Instalação e armazenamento dos arquivos principais
