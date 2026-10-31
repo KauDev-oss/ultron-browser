@@ -578,54 +578,129 @@ if ("serviceWorker" in navigator) {
 }
 </script>
   <script>
-const canalUltron = new BroadcastChannel("JARVIS_ULTRON");
+canalUltron.onmessage = (evento) => {
+  const dados = evento.data;
 
-canalUltron.onmessage = (event) => {
-  const dados = event.data;
+  if (!dados || dados.origem !== "JARVIS" || dados.tipo !== "mensagem") return;
 
-  if (dados.tipo === "mensagem") {
-    console.log("JARVIS recebeu:", dados.texto);
+  const chat = document.getElementById("chatJarvis");
+  const status = document.getElementById("statusJarvis");
 
-    alert("JARVIS: " + dados.texto);
-  }
+  if (!chat || !status) return;
+
+  const mensagem = document.createElement("p");
+  mensagem.textContent = "JARVIS: " + String(dados.texto ?? "");
+
+  mensagem.style.cssText =
+    "padding:10px;margin:8px 0;background:#241010;border-left:3px solid #ff2525;border-radius:5px;overflow-wrap:anywhere;";
+
+  chat.appendChild(mensagem);
+  chat.scrollTop = chat.scrollHeight;
+
+  status.textContent = "MENSAGEM RECEBIDA DO JARVIS";
 };
+<section id="comunicacao" style="
+    margin: 25px auto;
+    padding: 20px;
+    max-width: 900px;
+    background: #100909;
+    border: 1px solid #ff2525;
+    border-radius: 12px;
+    box-shadow: 0 0 15px #ff252533;
+">
 
+    <h2 style="
+        color: #ff2525;
+        text-align: center;
+        letter-spacing: 2px;
+    ">ULTRON × JARVIS</h2>
+
+    <p id="statusJarvis" style="
+        color: #aaa;
+        text-align: center;
+        font-size: 13px;
+    ">AGUARDANDO RESPOSTA DO JARVIS...</p>
+
+    <div id="chatJarvis" style="
+        height: 220px;
+        overflow-y: auto;
+        padding: 12px;
+        background: #080808;
+        border: 1px solid #441111;
+        border-radius: 8px;
+        color: #eee;
+        margin-bottom: 15px;
+    ">
+        <p style="color: #777; text-align: center;">
+            CANAL DE COMUNICAÇÃO PREPARADO
+        </p>
+    </div>
+
+    <div style="display: flex; gap: 8px;">
+
+        <input
+            id="mensagemJarvis"
+            type="text"
+            placeholder="Digite uma mensagem..."
+            style="
+                flex: 1;
+                min-width: 0;
+                padding: 12px;
+                background: #181010;
+                border: 1px solid #ff2525;
+                border-radius: 6px;
+                color: white;
+                outline: none;
+            "
+        >
+
+        <button
+            onclick="enviarParaJarvis(document.getElementById('mensagemJarvis').value)"
+            style="
+                padding: 12px 18px;
+                background: #ff2525;
+                color: white;
+                border: none;
+                border-radius: 6px;
+                font-weight: bold;
+                cursor: pointer;
+            "
+        >ENVIAR</button>
+
+    </div>
+</section>
 function enviarParaJarvis(texto) {
+  const chat = document.getElementById("chatJarvis");
+  const status = document.getElementById("statusJarvis");
+  const input = document.getElementById("mensagemJarvis");
+
+  texto = texto.trim();
+
+  if (!texto) return;
+
+  const mensagem = document.createElement("p");
+  mensagem.textContent = "ULTRON: " + texto;
+
+  mensagem.style.cssText =
+    "padding:10px;margin:8px 0;background:#241010;border-left:3px solid #ff2525;border-radius:5px;overflow-wrap:anywhere;";
+
+  chat.appendChild(mensagem);
+  chat.scrollTop = chat.scrollHeight;
+
   canalUltron.postMessage({
     origem: "ULTRON",
     tipo: "mensagem",
     texto: texto
   });
+
+  status.textContent = "MENSAGEM ENVIADA — AGUARDANDO JARVIS";
+  input.value = "";
 }
 
 console.log("ULTRON conectado ao canal JARVIS.");
   </script>
   <section id="comunicacao" style="
-  margin:20px;
-  padding:20px;
-  background:#151515;
-  border:1px solid #ff3030;
-  border-radius:12px;
-  color:white;
-">
-  <h2 style="color:#ff3030;">COMUNICAÇÃO JARVIS</h2>
-
-  <p id="statusJarvis">Canal preparado...</p>
-
-  <input
-    id="mensagemJarvis"
-    type="text"
-    placeholder="Mensagem para JARVIS..."
-    style="width:100%;padding:12px;box-sizing:border-box;"
-  >
-
-  <button
-    onclick="enviarParaJarvis(document.getElementById('mensagemJarvis').value)"
-    style="margin-top:10px;padding:12px;background:#ff3030;color:white;border:0;"
-  >
-    ENVIAR PARA JARVIS
-  </button>
-  </section>
+  
 </body>
 </html>
 
