@@ -600,6 +600,32 @@ function enviarParaJarvis(texto) {
 
 console.log("ULTRON conectado ao canal JARVIS.");
   </script>
+  <section id="comunicacao" style="
+  margin:20px;
+  padding:20px;
+  background:#151515;
+  border:1px solid #ff3030;
+  border-radius:12px;
+  color:white;
+">
+  <h2 style="color:#ff3030;">COMUNICAÇÃO JARVIS</h2>
+
+  <p id="statusJarvis">Canal preparado...</p>
+
+  <input
+    id="mensagemJarvis"
+    type="text"
+    placeholder="Mensagem para JARVIS..."
+    style="width:100%;padding:12px;box-sizing:border-box;"
+  >
+
+  <button
+    onclick="enviarParaJarvis(document.getElementById('mensagemJarvis').value)"
+    style="margin-top:10px;padding:12px;background:#ff3030;color:white;border:0;"
+  >
+    ENVIAR PARA JARVIS
+  </button>
+  </section>
 </body>
 </html>
 
